@@ -1,0 +1,249 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all .3s ease-out;
+}
+
+:root {
+    /* Primary */
+    --moderateBlue: #5457b6;
+    --softRed: #ed6468;
+    --lightGrayishBlue: #c3c3ef;
+    --paleRed: #ffb8bb;
+
+    /* Neutral */
+    --darkBlue:  #324152;
+    --grayishBlue: #67727e;
+    --lightGray: #eaecf1;
+    --veryLightGray:  #f5f6fa;
+    --white: #ffffff;
+
+    /* Font Size */
+    --fs-paragraph: 16px;
+
+    /* Border Radius */
+    --comment-radius: 8px;
+    --vote-radius: 10px;
+
+    /* Padding */
+    --padding-comment: 24px;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: var(--fs-paragraph);
+    background-color: var(--veryLightGray);
+    margin: 64px 0;
+}
+
+.comment-reply {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.comments {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    min-height: 100%;
+    max-width: 730px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.comment {
+    background-color: var(--white);
+    border-radius: var(--comment-radius);
+    padding: var(--padding-comment);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.vote {
+    width: 40px;
+    height: 100px;
+    padding: 12px 5px;
+    border-radius: var(--vote-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background: var(--veryLightGray);
+}
+
+.vote-icon {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vote-icon:hover > svg path {
+    fill: var(--moderateBlue);
+}
+
+.vote-number {
+    color: var(--moderateBlue);
+    font-weight: 500;
+}
+
+.comment__body {
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+    position: relative;
+}
+
+.comment__body-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.comment-author-image {
+    width: 32px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.comment-author-name {
+    color: var(--darkBlue);
+    font-weight: 500;
+}
+
+.comment-date {
+    color: var(--grayishBlue);
+    line-height: 1.5;
+}
+
+.action {
+    position: absolute;
+    top: 16px;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.edit,
+.reply {
+    color: var(--moderateBlue);
+}
+
+.delete {
+    color: var(--softRed);
+}
+
+.action > button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.5;
+    font-weight: 500;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.delete:hover {
+    color: var(--paleRed);
+}
+
+.delete:hover > svg path {
+    fill: var(--paleRed);
+}
+
+.edit:hover > svg path,
+.reply:hover > svg path {
+    fill: var(--lightGrayishBlue);
+}
+
+.edit:hover,
+.reply:hover {
+    color: var(--lightGrayishBlue);
+}
+
+.comment__content {
+    line-height: 1.5;
+    color: var(--grayishBlue);
+}
+
+.replied {
+    display: flex;
+    gap: 40px;
+    margin-left: 40px;
+}
+
+hr {
+    color: #E9EBF0;
+}
+
+.replied-comments {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --padding-comment:16px ;
+    }
+
+    body {
+        margin: 32px 16px;
+    }
+
+    .comment {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+        gap: 16px;
+        position: relative;
+    }
+
+    .vote {
+        width: 100px;
+        height: 40px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .comment__body {
+        position: static;
+    }
+
+    .action {
+        top: calc(100% - 26px);
+        right: 0;
+        transform: translate(-16px, -100%);
+    }
+
+    .replied {
+        gap: 16px;
+        margin-left: 0px;
+    }
+
+    .replied-comments {
+        gap: 16px;
+    }
+}
