@@ -1,4 +1,4 @@
-fetch("../data/data.json")
+fetch("https://chkhikvadzeg.github.io/interactive-comments-section-main/data.json")
   .then((res) => res.json())
   .then((data) => {
     for(let i = 0; i < data.comments.length; i++){
