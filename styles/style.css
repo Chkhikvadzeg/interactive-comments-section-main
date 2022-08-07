@@ -58,7 +58,8 @@ body {
     gap: 20px;
 }
 
-.comment {
+.comment,
+.add-comment {
     background-color: var(--white);
     border-radius: var(--comment-radius);
     padding: var(--padding-comment);
@@ -91,7 +92,8 @@ body {
     align-items: center;
 }
 
-.vote-icon:hover > svg path {
+.vote-icon:hover > svg path,
+.vote-icon:focus > svg path {
     fill: var(--moderateBlue);
 }
 
@@ -166,21 +168,27 @@ body {
     cursor: pointer;
 }
 
-.delete:hover {
+.delete:hover,
+.delete:focus {
     color: var(--paleRed);
 }
 
-.delete:hover > svg path {
+.delete:hover > svg path,
+.delete:focus > svg path  {
     fill: var(--paleRed);
 }
 
 .edit:hover > svg path,
-.reply:hover > svg path {
+.reply:hover > svg path,
+.edit:focus > svg path,
+.reply:focus > svg path  {
     fill: var(--lightGrayishBlue);
 }
 
 .edit:hover,
-.reply:hover {
+.reply:hover,
+.edit:focus,
+.reply:focus {
     color: var(--lightGrayishBlue);
 }
 
@@ -195,6 +203,16 @@ body {
     margin-left: 40px;
 }
 
+.you {
+    padding: 2px 6px;
+    background-color: var(--moderateBlue);
+    color: var(--white);
+    border-radius: 2px;
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: 500;
+}
+
 hr {
     color: #E9EBF0;
 }
@@ -203,6 +221,57 @@ hr {
     display: flex;
     flex-direction: column;
     gap: 24px;
+}
+
+.replied-name {
+    color: var(--moderateBlue);
+    font-weight: 500;
+}
+
+.add-comment {
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+#add-comment {
+    padding: 12px 24px;
+    height: 96px;
+    width: 100%;
+    resize: none;
+    outline: 0;
+    border: 1px solid #E9EBF0;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    line-height: 1.5;
+}
+
+#add-comment::placeholder{
+    color: var(--grayishBlue);
+    line-height: 1.5;
+    opacity: 1;
+}
+
+#add-comment:focus {
+    border: 1px solid var(--moderateBlue);
+}
+
+.send {
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    background-color: var(--moderateBlue);
+    color: var(--white);
+    border-radius: 8px;
+    font-weight: 500;
+    height: 48px;
+    line-height: 1.5;
+    padding: 12px 30px;
+}
+
+.send:hover,
+.send:focus {
+    background-color: var(--lightGrayishBlue);
 }
 
 @media screen and (max-width: 768px) {
