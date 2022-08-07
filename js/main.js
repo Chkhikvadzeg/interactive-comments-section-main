@@ -28,14 +28,10 @@ for(let i = 0; i < data.comments.length; i++){
     document.querySelector('.json-comments').append(commented)
     
 }
+
 // Adding input field for new comment and putting image of current user
-let addComment = `   
-  <div class="add-comment">
-  <img class="comment-author-image" src="${data.currentUser.image.png}" alt="">
-  <textarea name="add-comment" id="add-comment" placeholder="Add a comment..."></textarea>
-  <button class="send">Send</button>
-</div>
-`
+let addComment = addCommentInput();
+
 // Inserting new comment into the DOM
 document.querySelector('.my-comment').insertAdjacentHTML("beforeend",addComment)
 
@@ -54,6 +50,11 @@ sendButtons.forEach(sendButton => sendButton.addEventListener('click', () => {
 
     document.querySelector('.json-comments').append(commented)
     sendButton.previousElementSibling.value = '';
+    upVote();
+    downVote();
+    deleteComment();
+    cancelDelete();
+    editComment();
   }
 }))
 
@@ -94,33 +95,45 @@ function makeComment(id,score,image,username,createdAt,content, replied = null) 
                  
               </div>
               <p class="comment__content">
-              <span class="replied-name">${replied !== null ? `@${replied}` : ''}</span> ${content}
+              ${replied !== null ? `<span class="replied-name">@${replied}</span>` : ''}
+              ${content}
               </p>
             </div>`;
             return comment;
 }
 
 upVote();
-downVote()
+downVote();
+cancelDelete();
+deleteComment();
+editComment();
 
 // Make a function to delete a comment
-const deleteButtons = document.querySelectorAll('.delete');
-deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', () => {
-  document.querySelector('.delete-comment').style.display = 'flex';
-  document.body.classList.add('delete')
-  document.querySelector('.agree-delete').addEventListener('click', () => {
-    let id = deleteButton.classList[1];
-    document.getElementById(id).remove();
+function deleteComment() {
+  const deleteButtons = document.querySelectorAll('.delete');
+  deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', () => {
+    document.querySelector('.delete-comment').style.display = 'flex';
+    document.body.classList.add('delete')
+    document.querySelector('.agree-delete').addEventListener('click', () => {
+      let id = deleteButton.classList[1];
+      if(document.getElementById(id).parentElement.classList.contains('replied-comments')) {
+        document.getElementById(id).remove();
+      }else{
+        document.getElementById(id).parentElement.remove();
+      }
+      document.querySelector('.delete-comment').style.display = 'none';
+      document.body.classList.remove('delete')
+    })
+  }))
+}
+
+// Make a function to Cancel deleting a comment
+function cancelDelete() {
+  document.querySelector('.cancel-delete').addEventListener('click', () => {
     document.querySelector('.delete-comment').style.display = 'none';
     document.body.classList.remove('delete')
   })
-}))
-
-// Make a function to Cancel deleting a comment
-document.querySelector('.cancel-delete').addEventListener('click', () => {
-  document.querySelector('.delete-comment').style.display = 'none';
-  document.body.classList.remove('delete')
-})
+}
 
 // Make a function to Upvote a comment
 function upVote() {
@@ -164,4 +177,34 @@ function downVote() {
       minusButton.previousElementSibling.innerHTML = vote
     }
   }))
+}
+
+function editComment() {
+  const editButtons = document.querySelectorAll('.edit');
+  editButtons.forEach(editButton => editButton.addEventListener('click', () => {
+    let id = editButton.classList[1];
+    let previousComment = document.getElementById(id).querySelector('.comment__content');
+    let previousCommentText = previousComment.innerHTML;
+    let commentInput = addCommentInput('reply', previousCommentText);
+    previousComment.parentElement.insertAdjacentHTML('beforeend', commentInput);
+    previousComment.style.display = 'none';
+    document.getElementById(id).querySelector('.update').addEventListener('click', () => {
+      let commentInput = document.getElementById(id).querySelector('textarea');
+      previousCommentText = commentInput.value;
+      previousComment.innerHTML = previousCommentText;
+      previousComment.style.display = 'block';
+      commentInput.parentElement.remove();
+    })
+  }))
+}
+
+function addCommentInput(click = null, textAreaValue = '') {
+  let addComment = `   
+  <div class="add-comment">
+  ${click === null ? `<img class="comment-author-image" src="${data.currentUser.image.png}" alt="">` : ''}
+  <textarea name="add-comment" id="add-comment" placeholder="Add a comment..." ${click === null ? '' : textAreaValue}></textarea>
+  ${click === null ? '<button class="send button">Send</button>' : '<button class="update button">Update</button>'}
+</div>
+`
+return addComment;
 }

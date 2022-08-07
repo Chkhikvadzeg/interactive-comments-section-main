@@ -117,8 +117,7 @@ body.delete::after {
     align-items: center;
 }
 
-.vote-icon:hover > svg path,
-.vote-icon:active > svg path {
+.vote-icon:hover > svg path{
     fill: var(--moderateBlue);
 }
 
@@ -198,27 +197,21 @@ body.delete::after {
     cursor: pointer;
 }
 
-.delete:hover,
-.delete:active {
+.delete:hover {
     color: var(--paleRed);
 }
 
-.delete:hover > svg path,
-.delete:active > svg path  {
+.delete:hover > svg path {
     fill: var(--paleRed);
 }
 
 .edit:hover > svg path,
-.reply:hover > svg path,
-.edit:active > svg path,
-.reply:active > svg path  {
+.reply:hover > svg path {
     fill: var(--lightGrayishBlue);
 }
 
 .edit:hover,
-.reply:hover,
-.edit:active,
-.reply:active {
+.reply:hover{
     color: var(--lightGrayishBlue);
 }
 
@@ -290,7 +283,7 @@ hr {
     border: 1px solid var(--moderateBlue);
 }
 
-.send {
+.button {
     cursor: pointer;
     border: 0;
     outline: 0;
@@ -303,13 +296,13 @@ hr {
     padding: 12px 30px;
 }
 
-.send:hover,
-.send:active {
+.button:hover,
+.button:active {
     background-color: var(--lightGrayishBlue);
 }
 
 .delete-comment {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
