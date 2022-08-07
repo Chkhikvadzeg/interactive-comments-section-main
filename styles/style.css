@@ -374,7 +374,7 @@ hr {
     }
 
     body {
-        margin: 32px 16px;
+        padding: 32px 16px;
     }
 
     .comment {
@@ -408,5 +408,21 @@ hr {
 
     .replied-comments {
         gap: 16px;
+    }
+
+    .delete-comment {
+        padding: 28px;
+        max-width: 100%;
+        width: calc(100% - 32px);
+        gap: 16px;
+    }
+    
+    .delete-comment > h4 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+    
+    .buttons {
+        gap: 12px;
     }
 }
