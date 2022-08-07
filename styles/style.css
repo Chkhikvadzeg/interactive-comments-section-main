@@ -43,6 +43,7 @@ body {
     flex-direction: column;
     gap: 20px;
     position: relative;
+    justify-content: center;
 }
 
 body.delete::after {
@@ -408,6 +409,19 @@ hr {
 
     .replied-comments {
         gap: 16px;
+    }
+
+    .add-comment {
+        flex-flow: wrap;
+        align-items: center;
+    }
+
+    .add-comment > .comment-author-image {
+        order: 2;
+    }
+
+    .send {
+        order: 2;
     }
 
     .delete-comment {
