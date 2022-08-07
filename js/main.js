@@ -1,4 +1,4 @@
-fetch("../data.json")
+fetch("../data/data.json")
   .then((res) => res.json())
   .then((data) => {
     for(let i = 0; i < data.comments.length; i++){
