@@ -104,6 +104,7 @@ upVote();
 downVote()
 
 // Make a function to delete a comment
+const deleteButtons = document.querySelectorAll('.delete');
 deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', () => {
   document.querySelector('.delete-comment').style.display = 'flex';
   document.body.classList.add('delete')
