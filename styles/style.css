@@ -37,7 +37,18 @@ body {
     font-weight: 400;
     font-size: var(--fs-paragraph);
     background-color: var(--veryLightGray);
-    margin: 64px 0;
+    padding: 64px 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.json-comments {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .comment-reply {
@@ -93,7 +104,11 @@ body {
 }
 
 .vote-icon:hover > svg path,
-.vote-icon:focus > svg path {
+.vote-icon:active > svg path {
+    fill: var(--moderateBlue);
+}
+
+.vote-icon.active > svg path {
     fill: var(--moderateBlue);
 }
 
@@ -106,6 +121,7 @@ body {
     display: flex;
     flex-direction: column;
     gap:15px;
+    width: 100%;
     position: relative;
 }
 
@@ -169,26 +185,26 @@ body {
 }
 
 .delete:hover,
-.delete:focus {
+.delete:active {
     color: var(--paleRed);
 }
 
 .delete:hover > svg path,
-.delete:focus > svg path  {
+.delete:active > svg path  {
     fill: var(--paleRed);
 }
 
 .edit:hover > svg path,
 .reply:hover > svg path,
-.edit:focus > svg path,
-.reply:focus > svg path  {
+.edit:active > svg path,
+.reply:active > svg path  {
     fill: var(--lightGrayishBlue);
 }
 
 .edit:hover,
 .reply:hover,
-.edit:focus,
-.reply:focus {
+.edit:active,
+.reply:active {
     color: var(--lightGrayishBlue);
 }
 
@@ -215,6 +231,10 @@ body {
 
 hr {
     color: #E9EBF0;
+}
+
+.my-comment {
+    width: 100%;
 }
 
 .replied-comments {
@@ -252,7 +272,7 @@ hr {
     opacity: 1;
 }
 
-#add-comment:focus {
+#add-comment:active {
     border: 1px solid var(--moderateBlue);
 }
 
@@ -270,7 +290,7 @@ hr {
 }
 
 .send:hover,
-.send:focus {
+.send:active {
     background-color: var(--lightGrayishBlue);
 }
 
