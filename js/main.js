@@ -273,11 +273,10 @@ function replyCommentListener(event){
   if(!document.getElementById(id).parentElement.querySelector('.add-comment')){
     let commentInput = addCommentInput('reply');
     comment.parentElement.insertAdjacentHTML('beforeend', commentInput)
-
+    let textAreaValue = comment.parentElement.querySelector('.add-comment-area');
+    textAreaValue.focus();
     const replyButtons = document.querySelectorAll('.reply-button');
       replyButtons.forEach(replyButton => replyButton.addEventListener('click', () => {
-
-        let textAreaValue = comment.parentElement.querySelector('.add-comment-area');
         if(textAreaValue.value.length > 0){
           let randomId = Math.round(Date.now() + Math.random());
           let date = new Date;
