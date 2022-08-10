@@ -261,7 +261,7 @@ hr {
     justify-content: space-between;
 }
 
-#add-comment {
+.add-comment-area {
     padding: 12px 24px;
     height: 96px;
     width: 100%;
@@ -273,13 +273,13 @@ hr {
     line-height: 1.5;
 }
 
-#add-comment::placeholder{
+.add-comment-area::placeholder{
     color: var(--grayishBlue);
     line-height: 1.5;
     opacity: 1;
 }
 
-#add-comment:focus {
+.add-comment-area:focus {
     border: 1px solid var(--moderateBlue);
 }
 
@@ -401,6 +401,7 @@ hr {
     }
 
     .replied-comments {
+        width: 100%;
         gap: 16px;
     }
 

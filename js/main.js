@@ -22,10 +22,10 @@ for(let i = 0; i < data.comments.length; i++){
             let repliedComment = makeComment(repliedItem.id, repliedItem.score ,repliedItem.user.image.png, repliedItem.user.username, repliedItem.createdAt, repliedItem.content, repliedItem.replyingTo)
             repliedComments.insertAdjacentHTML("beforeend",repliedComment);
         } 
-        repliedContainer.append(repliedComments)
-        commented.append(repliedContainer)
+        repliedContainer.appendChild(repliedComments)
+        commented.appendChild(repliedContainer)
     }
-    document.querySelector('.json-comments').append(commented)
+    document.querySelector('.json-comments').appendChild(commented)
     
 }
 
@@ -47,13 +47,14 @@ sendButtons.forEach(sendButton => sendButton.addEventListener('click', () => {
     commented.classList.add('comment-reply');
     commented.insertAdjacentHTML('afterbegin', comment)
 
-    document.querySelector('.json-comments').append(commented)
+    document.querySelector('.json-comments').appendChild(commented)
     sendButton.previousElementSibling.value = '';
     upVote();
     downVote();
     deleteComment();
     cancelDelete();
     editComment();
+    replyComment();
   }
 }))
 
@@ -86,7 +87,7 @@ function makeComment(id,score,image,username,createdAt,content, replied = null) 
                 ` : 
                 `<div class="action">
                 <button class="reply ${id}">
-                <svg width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+                <svg class='reply-svg' width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
                 Reply
               </button>
               </div>`
@@ -108,6 +109,13 @@ downVote();
 cancelDelete();
 deleteComment();
 editComment();
+replyComment();
+
+function replyComment(){
+  const replyButtons = document.querySelectorAll('.reply');
+  replyButtons.forEach(replyButton => replyButton.removeEventListener('click', replyCommentListener))
+  replyButtons.forEach(replyButton => replyButton.addEventListener('click', replyCommentListener))
+}
 
 // Make a function to delete a comment
 function deleteComment() {
@@ -146,12 +154,14 @@ function addCommentInput(click = null, textAreaValue = '') {
   let addComment = `   
   <div class="add-comment">
   ${click === null ? `<img class="comment-author-image" src="${data.currentUser.image.png}" alt="">` : ''}
-  <textarea name="add-comment" id="add-comment" placeholder="${click === null ? 'Add a comment' : 'Update a comment'}" ${click === null ? '' : textAreaValue}></textarea>
-  ${click === null ? '<button class="send button">Send</button>' : '<button class="update button">Update</button>'}
+  <textarea name="add-comment" class="add-comment-area" placeholder="${click === null ? 'Add a comment' : click === 'update' ? 'Update a comment' : 'Reply a comment'}" ${click === null ? '' : textAreaValue}></textarea>
+  ${click === null ? '<button class="send button">Send</button>' : click === 'update' ? '<button class="update button">Update</button>' : '<button class="reply-button button">Reply</button>'}
 </div>
 `
 return addComment;
 }
+
+
 
 function upVoteListener(event) {
   let button;
@@ -210,10 +220,12 @@ function deleteCommentListener(event){
   document.body.classList.add('delete')
   document.querySelector('.agree-delete').addEventListener('click', () => {
     let id = event.target.classList[1];
-    if(document.getElementById(id)?.parentElement.classList.contains('replied-comments')) {
+    if(document.getElementById(id)?.parentElement.classList.contains('replied-comments') && document.getElementById(id)?.parentElement.childElementCount > 1) {
       document.getElementById(id).remove();
-    }else{
+    }else if(document.getElementById(id)?.parentElement.classList.contains('comment-reply')){
       document.getElementById(id)?.parentElement.remove();
+    }else{
+      document.getElementById(id)?.parentElement.parentElement.remove();
     }
     document.querySelector('.delete-comment').style.display = 'none';
     document.body.classList.remove('delete')
@@ -233,7 +245,7 @@ function editCommentListener(event){
   let previousComment = document.getElementById(id).querySelector('.comment__content');
   let previousCommentText = previousComment.textContent;
   if(!document.getElementById(id).querySelector('.add-comment')){
-    let commentInput = addCommentInput('reply', previousCommentText);
+    let commentInput = addCommentInput('update', previousCommentText);
     previousComment.parentElement.insertAdjacentHTML('beforeend', commentInput);
   }
   previousComment.style.display = 'none';
@@ -245,4 +257,65 @@ function editCommentListener(event){
     commentInput.parentElement.remove();
   })
 
+}
+
+function replyCommentListener(event){
+  let button;
+  if(event.target.classList.contains('reply')){
+    button = event.target;
+  }else if(event.target.classList.contains('reply-svg')){
+    button = event.target.parentElement;
+  }else {
+    button = event.target.parentElement.parentElement;
+  }
+  let id = button.classList[1];
+  let comment = document.getElementById(id);
+  if(!document.getElementById(id).parentElement.querySelector('.add-comment')){
+    let commentInput = addCommentInput('reply');
+    comment.parentElement.insertAdjacentHTML('beforeend', commentInput)
+
+    const replyButtons = document.querySelectorAll('.reply-button');
+      replyButtons.forEach(replyButton => replyButton.addEventListener('click', () => {
+
+        let textAreaValue = comment.parentElement.querySelector('.add-comment-area');
+        if(textAreaValue.value.length > 0){
+          let randomId = Math.round(Date.now() + Math.random());
+          let date = new Date;
+      
+          let commented = makeComment(randomId, 0, data.currentUser.image.png, data.currentUser.username, `${date.toLocaleDateString()}`, textAreaValue.value, comment.querySelector('.comment-author-name').textContent);
+          let replied;
+          if(!comment.parentElement.querySelector('.replied') && comment.parentElement.classList.contains('comment-reply')){
+            replied = document.createElement('div')
+            replied.classList.add('replied');
+            replied.appendChild(document.createElement('hr'))
+          }else if(comment.parentElement.classList.contains('replied-comments')) {
+            replied = comment.parentElement.parentElement;
+          }else{
+            replied = comment.parentElement.querySelector('.replied')
+          }
+
+          let repliedComments;
+          if(!comment.parentElement.querySelector('.replied-comments') && !comment.parentElement.classList.contains('replied-comments')){
+            repliedComments = document.createElement('div');
+            repliedComments.classList.add('replied-comments');
+            replied.appendChild(repliedComments);
+          }else if(comment.parentElement.querySelector('.replied-comments')){
+            repliedComments = comment.parentElement.querySelector('.replied-comments');
+          }else{
+            repliedComments = comment.parentElement;
+          }
+          repliedComments.insertAdjacentHTML('afterbegin', commented)
+          if(!comment.parentElement.querySelector('.replied') && comment.parentElement.classList.contains('replied')){
+            comment.parentElement.appendChild(replied)
+          }
+          textAreaValue.parentElement.remove();
+          upVote();
+          downVote();
+          cancelDelete();
+          deleteComment();
+          editComment();
+          replyComment();
+        }
+  }))
+  }
 }
