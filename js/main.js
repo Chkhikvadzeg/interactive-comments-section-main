@@ -1,5 +1,7 @@
 // Importing the data from the json file
-import data from '../data.json' assert {type: 'json'}; 
+
+const fetchedData = await fetch('../data.json');
+const data = await fetchedData.json();
 
 // Adding Comments from JSON File
 for(let i = 0; i < data.comments.length; i++){
